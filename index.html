@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>My Image Gallery</h1>
+        <p>Explore the beauty of nature</p>
+    </header>
+
+    <main class="gallery">
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"
+                 alt="Mountain landscape"
+                 data-caption="Beautiful mountain landscape">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470"
+                 alt="Mountain lake"
+                 data-caption="Peaceful mountain lake">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1464278533981-50106e6176b1"
+                 alt="Green mountains"
+                 data-caption="Green mountains and a lake">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1448375240586-882707db888b"
+                 alt="Forest trees"
+                 data-caption="Sunlight through the forest">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba"
+                 alt="Snowy mountain"
+                 data-caption="Snow-covered mountain">
+        </div>
+
+        <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+                 alt="Nature landscape"
+                 data-caption="Beautiful natural landscape">
+        </div>
+
+    </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+
+        <button class="close" id="close">&times;</button>
+
+        <button class="prev" id="prev">&#10094;</button>
+
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="">
+            <p id="caption"></p>
+        </div>
+
+        <button class="next" id="next">&#10095;</button>
+
+    </div>
+
+    <script>
+const images = document.querySelectorAll(".gallery-item img");
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightbox-image");
+const caption = document.getElementById("caption");
+
+const closeButton = document.getElementById("close");
+const nextButton = document.getElementById("next");
+const prevButton = document.getElementById("prev");
+
+let currentIndex = 0;
+      
+images.forEach((image, index) => {
+
+    image.addEventListener("click", () => {
+
+        currentIndex = index;
+
+        showImage();
+
+        lightbox.classList.add("active");
+    });
+
+});
+
+function showImage() {
+
+    const image = images[currentIndex];
+
+    lightboxImage.src = image.src;
+    lightboxImage.alt = image.alt;
+
+    caption.textContent = image.dataset.caption;
+}
+
+
+nextButton.addEventListener("click", () => {
+
+    currentIndex++;
+
+    if (currentIndex >= images.length) {
+        currentIndex = 0;
+    }
+
+    showImage();
+});
+
+
+prevButton.addEventListener("click", () => {
+
+    currentIndex--;
+
+    if (currentIndex < 0) {
+        currentIndex = images.length - 1;
+    }
+
+    showImage();
+});
+
+
+closeButton.addEventListener("click", () => {
+    lightbox.classList.remove("active");
+});
+
+
+lightbox.addEventListener("click", (event) => {
+
+    if (event.target === lightbox) {
+        lightbox.classList.remove("active");
+    }
+
+});
+
+
+document.addEventListener("keydown", (event) => {
+
+    if (!lightbox.classList.contains("active")) {
+        return;
+    }
+
+    if (event.key === "ArrowRight") {
+        nextButton.click();
+    }
+
+    if (event.key === "ArrowLeft") {
+        prevButton.click();
+    }
+
+    if (event.key === "Escape") {
+        closeButton.click();
+    }
+
+});
+    </script>
+
+</body>
+</html>
